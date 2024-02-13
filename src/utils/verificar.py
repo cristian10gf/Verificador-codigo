@@ -1,6 +1,6 @@
-from core.EAN import *
-from core.ISBN import *
-from core.ISIN import *
+from ..core.EAN import *
+from ..core.ISBN import *
+from ..core.ISIN import *
 
 def revisar_codigo(codigo):
   if (not codigo.isdigit()):

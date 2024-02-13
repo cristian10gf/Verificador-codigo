@@ -4,10 +4,10 @@ def detectar_EAN_13(codigo: str, mensaje: bool = True):
   if len(codigo) != 13:
       return codigo + ' no tiene exactamente 13 digitos no es un codigo EAN-13' if mensaje else False
   
-  if not codigo[0:12].isdigit():
+  if not codigo.isdigit():
       return codigo + ' los  13 caracteres no son digitos' if mensaje else False
 
-  for c in codigo[:13]:
+  for c in codigo:
     numeros.append(c)
 
   for i in range(1, 12, 2):
@@ -20,33 +20,6 @@ def detectar_EAN_13(codigo: str, mensaje: bool = True):
   
   return response if mensaje else numeros % 10 == 0
 
-def encontrar_d_c_EAN_13(codigo: str, mensaje: bool = True):
-  numeros = []
-
-  if len(codigo) != 12:
-      return codigo + ' no tiene exactamente 12 digitos no debe tener digito de control' if mensaje else False
-
-  if not codigo[0:11].isdigit():
-      return codigo + ' los 12 caracteres no son digitos' if mensaje else False
-  
-  for c in codigo[:12]:
-    numeros.append(c)
-
-  for i in range(1, 12, 2):
-    numeros[i] = str(int(numeros[i]) * 3)
-
-  lista_num= [int(x) for x in numeros]
-
-  numeros=sum(lista_num)
-  n=0
-  if numeros % 10 == 0:
-    print(codigo+"x",'Es un código EAN-13 con dígito de control: ',0)
-  else:
-    while numeros %10 != 0:
-      n+=1
-      numeros=numeros+1
-  print(codigo+"x",'Es un código EAN-13 con dígito de control:', n)
-
 def encontrar_x_EAN_13(codigo: str, mensaje: bool = True):
   numeros = []
   x = codigo.find('x') # posision de la x en el codigo
@@ -54,15 +27,13 @@ def encontrar_x_EAN_13(codigo: str, mensaje: bool = True):
   if x == -1:
     return codigo + ' no tiene una x' if mensaje else -1
 
+  validacion = codigo.split('x')
   if len(codigo) != 13:
       return codigo + ' no tiene exactamente 13 digitos' if mensaje else -1
 
-  if not codigo[0:12].isdigit() and x == -1:
+  if (not validacion[0].isdigit() and validacion[0] != "") or (not validacion[1].isdigit() and validacion[1] != ''):
       return codigo + ' los 12 caracteres no son digitos' if mensaje else -1
 
-  if not codigo[:x-1].isdigit() or ((not codigo[x+1:13].isdigit()) and x != len(codigo)-1):
-      return codigo + ' los 12 caracteres no son digitos' if mensaje else -1
-  
   for c in codigo[:13]:
     numeros.append(c)
 
@@ -111,52 +82,25 @@ def detectar_EAN_8(codigo: str, mensaje: bool = True):
 
   return response if mensaje else numeros % 10 == 0
      
-def encontrar_d_c_EAN_8(codigo: str, mensaje: bool = True):
-  numeros = []
-  
-  if len(codigo) != 7:
-      return codigo + ' no tiene exactamente 7 digitos no es un codigo EAN-8 o ya tiene digito de control' if mensaje else False
-  if not codigo[0:6].isdigit():
-      return codigo + ' los  6 caracteres no son digitos' if mensaje else False
-  for c in codigo[:8]:
-    numeros.append(c)
-
-  for i in range(1, 6, 2):
-    numeros[i] = str(int(numeros[i]) * 3)
-
-  lista_num = [int(x) for x in numeros]
-
-  numeros=sum(lista_num)
-  n=0
-  codigo=str(codigo)
-  if numeros % 10 == 0:
-    print(f"{codigo}x Es un código EAN-8 con dígito de control: 0")
-  else:
-    while numeros %10 != 0:
-      n+=1
-      numeros=numeros+1
-    print(f"{codigo}x Es un código EAN-8 con dígito de control: {n}")
-
 def encontrar_x_EAN_8(codigo: str, mensaje: bool = True):
   numeros = []
   x = codigo.find('x') # posision de la x en el codigo
+  
 
   if x == -1:
     return codigo + ' no tiene una x' if mensaje else -1
-
+  
+  validacion = codigo.split('x') # separa el codigo en dos partes
   if len(codigo) != 8:
       return codigo + ' no tiene exactamente 8 digitos' if mensaje else -1
 
-  if not codigo[0:6].isdigit() and x == -1:
-      return codigo + ' los 6 caracteres no son digitos' if mensaje else -1
-
-  if not codigo[:x-1].isdigit() or not codigo[x+1:8].isdigit():
-      return codigo + ' los 6 caracteres no son digitos' if mensaje else -1
+  if (not validacion[0].isdigit() and validacion[0] != "") or (not validacion[1].isdigit() and validacion[1] != ''):
+      return codigo + ' los 7 caracteres no son digitos' if mensaje else -1
   
-  for c in codigo[:7]:
+  for c in codigo:
     numeros.append(c)
 
-  for i in range(1, 6, 2):
+  for i in range(1, 8, 2):
     if i != x:
       numeros[i] = str(int(numeros[i]) * 3)
 

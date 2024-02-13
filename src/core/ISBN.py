@@ -29,7 +29,7 @@ def encontrar_ISBN_10(codigo: str, mensaje: bool = True):
   validacion = codigo.split('x')
   if len(codigo) != 10:
       return codigo + ' no tiene exactamente 9 caracteres o ya tiene digito de control' if mensaje else -1
-  if not validacion[0].isdigit() or not validacion[1].isdigit():
+  if (not validacion[0].isdigit() and validacion[0] != "") or (not validacion[1].isdigit() and validacion[1] != ''):
       return codigo + ' los 9 caracteres no son digitos' if mensaje else -1
 
   for c in codigo[:9]:
@@ -89,7 +89,7 @@ def encontrar_ISBN_13(codigo: str, mensaje: bool = True):
         return codigo + ' no tiene exactamente 12 caracteres o ya tiene digito de control' if mensaje else -1
     if codigo[0:3] != inicio:
         return codigo + ' no tiene la identificacion de codigo ISBN-13' if mensaje else -1
-    if not validacion[0].isdigit() or not validacion[1].isdigit():
+    if (not validacion[0].isdigit() and validacion[0] != "") or (not validacion[1].isdigit() and validacion[1] != ''):
         return codigo + ' los 12 caracteres no son digitos' if mensaje else -1
 
     for c in codigo[3:12]:

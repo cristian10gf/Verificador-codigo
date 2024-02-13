@@ -33,62 +33,12 @@ def detectar_ISIN(codigo: str, mensaje: bool = True):
             numeros[i] = str(sum(int(digito) for digito in numeros[i]))
 
     lista_num = [int(x) for x in numeros]
-
     numeros=sum(lista_num)
 
     response = codigo + ' Es un código ISIN con dígito de control: ' + str(lista_num[13]) if numeros % 10 == 0 else 'No es un código ISIN válido'
 
     return response if mensaje else numeros % 10 == 0
-    
 
-def ISIN_search_control(codigo):
-    letra_en_numeros = {'A': 10, 'B': 11, 'C': 12, 'D': 13, 'E': 14, 'F': 15, 'G': 16, 'H': 17, 'I': 18, 'J': 19, 'K': 20, 'L': 21, 'M': 22, 'N': 23, 'O': 24,
-                        'P': 25, 'Q': 26, 'R': 27, 'S': 28, 'T': 29, 'U': 30, 'V': 31, 'W': 32, 'X': 33, 'Y': 34, 'Z': 35}
-    numeros = []
-    digitos = []
-
-
-    if not codigo[:2].isalpha():
-        return codigo + ' los primeros dos caracteres no son letras'
-    if  len(codigo) !=11 :
-        return codigo + ' Ya tiene un digito de control'
-
-
-    for c in codigo[:11]:
-        if c.isalpha():
-          numero_letra = letra_en_numeros[c]
-
-          digitos = []
-
-          while numero_letra > 0:
-              digit = numero_letra % 10
-              digitos.append(digit)
-              numero_letra //= 10
-          numeros.extend(reversed(digitos))
-        else:
-         numeros.append(c)
-    for i in range(0, 14, 2):
-          numeros[i] = str(int(numeros[i]) * 2)
-
-          if len(numeros[i]) == 2:
-              numeros[i] = str(sum(int(digito) for digito in numeros[i]))
-
-    lista_num = [int(x) for x in numeros]
-
-    numeros=sum(lista_num)
-
-    n=0
-    if numeros % 10 == 0:
-      print(codigo+"x",'Es un código ISIN con dígito de control: ',0)
-      return 0
-    else:
-      while numeros %10 != 0:
-        n+=1
-        numeros=numeros+1
-
-      print(codigo+"x",'Es un código ISIN con dígito de control:', n)
-      return n
-    
 
 def ISIN_search_x(codigo: str, mensaje: bool = True):
     letra_en_numeros = {'A': 10, 'B': 11, 'C': 12, 'D': 13, 'E': 14, 'F': 15, 'G': 16, 'H': 17, 'I': 18, 'J': 19, 'K': 20, 'L': 21, 'M': 22, 'N': 23, 'O': 24,
@@ -99,14 +49,13 @@ def ISIN_search_x(codigo: str, mensaje: bool = True):
 
     if x == -1:
       return codigo + ' no tiene una x' if mensaje else -1
+    validacion = codigo.split('x') # separa el codigo en dos partes
     if len(codigo) != 12:
         return codigo + ' no tiene exactamente 12 digitos' if mensaje else -1
     if not codigo[:2].isalpha():
         return codigo + ' los primeros dos caracteres no son letras' if mensaje else -1
-    if not codigo[2:11].isdigit() and x == -1:
-        return codigo + ' los 12 caracteres no son digitos' if mensaje else -1
-    if not codigo[2:x-1].isdigit() or (not codigo[x+1:12].isdigit() and x != len(codigo)-1):
-        return codigo + ' los 12 caracteres no son digitos' if mensaje else -1
+    if (not validacion[0][2:].isdigit() and validacion[0] != "") or (not validacion[1].isdigit() and validacion[1] != ''):
+        return codigo + ' los 9 caracteres no son digitos' if mensaje else -1
 
     for c in codigo[:12]:
         if c.isalpha() and c != 'x':
@@ -150,3 +99,4 @@ def ISIN_search_x(codigo: str, mensaje: bool = True):
                 break
 
     return response if mensaje else int(response)
+
