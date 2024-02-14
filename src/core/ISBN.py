@@ -62,7 +62,7 @@ def detectar_ISBN_13(codigo: str, mensaje: bool = True):
     if codigo[0:3] != inicio:
         return codigo + ' no tiene la identificacion de codigo ISBN-13' if mensaje else False
 
-    for c in codigo[3:12]:
+    for c in codigo[:12]:
         numeros.append(c)
 
     lista_num= [int(x) for x in numeros]
@@ -92,7 +92,7 @@ def encontrar_ISBN_13(codigo: str, mensaje: bool = True):
     if (not validacion[0].isdigit() and validacion[0] != "") or (not validacion[1].isdigit() and validacion[1] != ''):
         return codigo + ' los 12 caracteres no son digitos' if mensaje else -1
 
-    for c in codigo[3:12]:
+    for c in codigo[:12]:
         numeros.append(c)
 
     lista_num= [int(x) for x in numeros if x != 'x']

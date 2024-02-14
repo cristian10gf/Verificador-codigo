@@ -1,6 +1,6 @@
 from turtle import color
 import flet as ft
-from src.utils.verificar import revisar_codigo, encontrar_x as buscar_x, consultar_codigo
+from src.utils.verificar import revisar_codigo, encontrar_x, consultar_codigo
 
 BG = '#041955'
 FG = '#3450a1'
@@ -52,7 +52,7 @@ def main(page: ft.Page):
   
   main = ft.ElevatedButton(text="Verificar", on_click=lambda e: mover(e,"/"), bgcolor=BG, color='white')
   revisar = ft.ElevatedButton(text="Revisar", on_click=lambda e: mover(e,"/revisar"), bgcolor=BG, color='white')
-  encontrar_x = ft.ElevatedButton(text="Buscar X", on_click=lambda e: mover(e,"/encontrar_x"), bgcolor=BG, color='white')
+  digito_control = ft.ElevatedButton(text="Buscar X", on_click=lambda e: mover(e,"/encontrar_x"), bgcolor=BG, color='white')
 
   opciones = ft.Container(
     bgcolor=FWG,
@@ -60,7 +60,7 @@ def main(page: ft.Page):
     border_radius=20,
     width=400,
     content=ft.Row(
-      controls=[main, revisar, encontrar_x],
+      controls=[main, revisar, digito_control],
       alignment=ft.MainAxisAlignment.CENTER,
     )
   )
@@ -145,14 +145,14 @@ def main(page: ft.Page):
 
   # ____Encontrar X____
 
-  def buscar_x (e):
-    tipo_codigo.value = buscar_x(codigo.value)
+  def buscar_x(e):
+    tipo_codigo.value = str(encontrar_x(codigo.value))
     page.update()
 
   boton_encontrar_x = ft.ElevatedButton(
     color= 'white',
     text="Encontrar X",
-    on_click=analizar_codigo
+    on_click=buscar_x
   )
 
   encontrar_x_contenido = ft.Container(

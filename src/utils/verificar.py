@@ -3,7 +3,7 @@ from ..core.ISBN import *
 from ..core.ISIN import *
 
 def revisar_codigo(codigo):
-  if (not codigo.isdigit()):
+  if (not codigo[2:].isdigit()):
     return 'No es un código valido'
   if detectar_EAN_13(codigo, False):
     return 'EAN-13'
